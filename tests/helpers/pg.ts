@@ -50,7 +50,7 @@ export async function asService<T>(db: PGlite, fn: (tx: Tx) => Promise<T>): Prom
 
 export async function one<T = Record<string, unknown>>(tx: Tx | PGlite, sql: string, params: unknown[] = []): Promise<T> {
   const res = await tx.query<T>(sql, params);
-  return res.rows[0];
+  return res.rows[0] as T;
 }
 
 /** Crée un utilisateur auth et renvoie son id. */

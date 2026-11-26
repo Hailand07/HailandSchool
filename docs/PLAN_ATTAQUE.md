@@ -194,21 +194,27 @@ Objectif : remplacer les hypothèses par des faits avant de figer les modules 3 
 
 ## 7. Suivi d'avancement
 
-- [ ] Étape 0 — kit terrain rédigé ; entretiens à mener
-- [ ] 1.1 Initialisation
-- [ ] 1.2 Schéma serveur du socle
-- [ ] 1.3 Isolation par école
-- [ ] 1.4 Protocole de synchronisation serveur
-- [ ] 1.5 Base locale et file d'opérations
-- [ ] 1.6 Moteur de synchronisation
-- [ ] 1.7 Authentification
-- [ ] 1.8 Comptes et rôles
-- [ ] 1.9 Coquille de l'application
-- [ ] 1.10 Preuve du jalon de l'étape 1
-- [ ] Étapes 2 à 6
+| Lot | État | Preuve |
+| --- | --- | --- |
+| Étape 0 | Kit rédigé ; entretiens à mener par l'équipe | `docs/terrain/` |
+| 1.1 Initialisation | Fait | `npm run build`, intégration continue `.github/workflows/ci.yml` |
+| 1.2 Schéma serveur du socle | Fait | `supabase/migrations/20261126000001_socle.sql` |
+| 1.3 Isolation par école | Fait | `tests/sql/socle.test.ts`, bloc « isolation par école » |
+| 1.4 Protocole de synchronisation serveur | Fait | `tests/sql/socle.test.ts`, blocs « appareils », « opérations », « lecture » |
+| 1.5 Base locale et file d'opérations | Fait | `src/sync/db.ts`, `src/sync/store.ts` |
+| 1.6 Moteur de synchronisation | Fait | `src/sync/engine.ts` |
+| 1.7 Authentification | Fait | `src/auth/`, `tests/unit.test.ts` ; parcours vérifié dans le navigateur avec un serveur simulé, réouverture hors connexion comprise |
+| 1.8 Comptes et rôles | Code écrit, non exécuté | `supabase/functions/members/`, `scripts/bootstrap-school.ts` : à tester sur le projet Supabase réel |
+| 1.9 Coquille de l'application | Fait | `src/app/` |
+| 1.10 Preuve du jalon | Fait en test automatisé | `tests/sync/deux-appareils.test.ts` |
+| Jalon de l'étape 1 sur matériel réel | À faire | Déployer sur un projet Supabase dédié, puis deux téléphones Android en mode avion |
+| Étapes 2 à 6 | À venir | |
 
 ## 8. Journal des changements du plan
 
 | Date | Changement | Raison |
 | --- | --- | --- |
 | 26/11/2026 | Version 1 | Démarrage du MVP |
+| 26/11/2026 | Lot 1.7 : le code SMS à usage unique passe à l'étape 5 (HYP-11) ; le mot de passe provisoire donné par le fondateur doit être changé à la première connexion | Aucun fournisseur SMS choisi avant l'étape 0 |
+| 26/11/2026 | Lot 1.8 : création des membres limitée au personnel ; parents et élèves en V2 avec l'espace parent | Périmètre MVP |
+| 26/11/2026 | Le chiffrement des données locales reste au lot 6.2, comme prévu | Rappel : le code à 4 chiffres protège l'accès, pas encore le stockage |
