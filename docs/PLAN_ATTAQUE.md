@@ -46,22 +46,20 @@ Un lot est terminé quand :
 
 ## 4. Calendrier
 
-Le calendrier suit l'année scolaire guinéenne : une école ne change d'outil qu'à la rentrée d'octobre.
+Le code est écrit par Claude : le temps de développement n'est plus la contrainte. Ce qui fixe le rythme, ce sont les validations du porteur du projet et les données du terrain. Chaque étape suit donc la même séquence : **maquettes validées → code → tests → déploiement → essai par le porteur**.
 
-| Étape | Durée à plein temps | Période | Jalon de sortie |
+| Étape | Prérequis pour coder | Jalon de sortie | État |
 | --- | --- | --- | --- |
-| 0. Terrain | 3 semaines | Décembre 2026, en parallèle de l'étape 1 | Modèles réels en main, règles de notation validées, 3 pilotes choisis |
-| 1. Socle | 5 semaines | 26 novembre 2026 → fin janvier 2027 | Deux téléphones hors ligne se synchronisent sans perte ni doublon |
-| 2. École et élèves | 3 semaines | Février 2027 | Une école réelle de 400 élèves chargée en moins d'une journée |
-| 3. Frais et caisse | 5 semaines | Mars → mi-avril 2027 | Un comptable encaisse en moins de 30 secondes sans réseau |
-| Pilote caisse | Continu | Mi-avril 2027 (3e trimestre) | La caisse tourne chez 1 à 3 pilotes |
-| 4. Notes et bulletins | 5 semaines | Mai → juin 2027 | Bulletins identiques au calcul manuel sur une classe témoin |
-| Gel fonctionnel | — | 31 juillet 2027 | Caisse et bulletins ne reçoivent plus que des corrections |
-| 5. Messages et tableau de bord | 2 semaines | Août 2027 | Le fondateur lit sa recette du jour sur son téléphone |
-| 6. Pilote et durcissement | 4 semaines | Août → septembre 2027 | Un trimestre complet sans perte de données |
-| Lancement commercial | — | Octobre 2027 | Rentrée 2027-2028 |
+| C. Conception | — | Architecture, flux par rôle, charte et écrans validés sur la [maquette](https://claude.ai/artifact/6Qt9kwN7D88bczGAJcRjNn) | Maquette publiée, **en attente de validation** |
+| 0. Terrain | Kit `docs/terrain/` | Modèles réels en main, règles de notation validées, 3 pilotes choisis | À mener par l'équipe |
+| 1. Socle | — | Deux téléphones hors ligne se synchronisent sans perte ni doublon | Codé, testé, déployé ; test sur deux vrais téléphones à faire |
+| 2. École et élèves | Écrans de l'étape 2 validés | Une école réelle de 400 élèves chargée en moins d'une journée | Attend la validation C |
+| 3. Frais et caisse | Écrans de l'étape 3 validés ; grilles de frais et reçus réels (étape 0) conseillés | Un comptable encaisse en moins de 30 secondes sans réseau | Attend la validation C |
+| 4. Notes et bulletins | Écrans validés ; bulletins réels et règles de la DCE (étape 0) **obligatoires** avant de figer le calcul | Bulletins identiques au calcul manuel sur une classe témoin | Attend C et 0 |
+| 5. Messages et tableau de bord | Écrans validés ; devis SMS (étape 0) | Le fondateur lit sa recette du jour sur son téléphone | Attend C et 0 |
+| 6. Pilote et durcissement | Écoles pilotes engagées | Un trimestre complet sans perte de données | Attend 0 |
 
-L'étude place le gel « fin juillet » et l'étape 5 en août. Ce plan les réconcilie : le gel porte sur la caisse et les bulletins, déjà en usage chez les pilotes ; l'étape 5 n'ajoute que les SMS et le tableau de bord, qui ne modifient pas ces deux modules.
+Contrainte qui ne bouge pas : une école ne change d'outil qu'à la rentrée d'octobre. Les pilotes peuvent démarrer dès que les étapes 2 et 3 sont livrées, en cours d'année scolaire 2026-2027.
 
 ## 5. Registre des hypothèses provisoires
 
@@ -196,6 +194,7 @@ Objectif : remplacer les hypothèses par des faits avant de figer les modules 3 
 
 | Lot | État | Preuve |
 | --- | --- | --- |
+| Conception (C) | Maquette publiée, en attente de validation | https://claude.ai/artifact/6Qt9kwN7D88bczGAJcRjNn : architecture, flux par rôle, charte, 19 écrans |
 | Étape 0 | Kit rédigé ; entretiens à mener par l'équipe | `docs/terrain/` |
 | 1.1 Initialisation | Fait | `npm run build`, intégration continue `.github/workflows/ci.yml` |
 | 1.2 Schéma serveur du socle | Fait | `supabase/migrations/20261126000001_socle.sql` |
@@ -223,4 +222,5 @@ Objectif : remplacer les hypothèses par des faits avant de figer les modules 3 
 | 26/11/2026 | Le chiffrement des données locales reste au lot 6.2, comme prévu | Rappel : le code à 4 chiffres protège l'accès, pas encore le stockage |
 | 26/11/2026 | Projet Supabase installé en Irlande et non à Paris | Création du projet de Paris impossible (limite de projets gratuits) ; projet créé par l'équipe dans l'organisation HailandSchool |
 | 26/11/2026 | Migration 2 : registre de synchronisation lisible malgré l'activation automatique de la sécurité par ligne ; droits par défaut de Supabase retirés | Contrôle de sécurité du projet ; sans correction, toute synchronisation aurait échoué et les fonctions d'administration auraient été appelables |
+| 26/11/2026 | Ajout de la phase C « Conception » avant les étapes 2 à 5 ; calendrier exprimé en prérequis et validations, plus en semaines | Demande du porteur : valider architecture, design, écrans et flux avant de coder ; le code est écrit par Claude |
 | 26/11/2026 | Connexion par adresse technique dérivée du numéro (HYP-11) | Fournisseur « téléphone » désactivé sur le projet, il exige un service SMS |
