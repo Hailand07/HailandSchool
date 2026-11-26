@@ -79,13 +79,13 @@ Chaque règle non sourcée est codée comme un paramètre, avec un identifiant `
 | HYP-08 | Remise de fratrie fréquente | `discounts` | Étape 0 | À valider |
 | HYP-09 | Reçu : en-tête de l'école, montant en chiffres et en lettres, reste à payer, caissier, QR de vérification | Modèle de reçu | Étape 0 : reçus réels | À valider |
 | HYP-10 | Imprimante thermique 58 mm Bluetooth ; à défaut, PDF partagé | Module d'impression | Étape 3 : test d'un modèle acheté à Conakry | À valider |
-| HYP-11 | Connexion par téléphone et mot de passe, puis code à 4 chiffres sur l'appareil ; code SMS à usage unique reporté à l'étape 5, quand le fournisseur SMS est choisi | Écrans de connexion | Étape 5 | Adaptation assumée |
+| HYP-11 | Connexion par numéro et mot de passe, puis code à 4 chiffres sur l'appareil. Techniquement, le numéro est converti en adresse `224…@telephone.hailand.invalid` : la connexion « téléphone » de Supabase exige un fournisseur SMS payant. Code SMS à usage unique reporté à l'étape 5 | `src/lib/phone.ts`, écrans de connexion, fonction `members` | Étape 5 | Adaptation assumée |
 | HYP-12 | Matricule national : texte libre, unique par école si renseigné | `students.national_id` | Étape 0 : format auprès de la DCE | À valider |
 | HYP-13 | Taille moyenne d'école cliente : 300 élèves ; performance testée jusqu'à 2 000 | Tests de performance | Étape 0 | Estimation |
 | HYP-14 | Le parent paie l'école sur son compte marchand Orange Money ; le comptable saisit la référence | Mode de paiement « Orange Money » | Étape 0 : pratique des écoles | À valider |
 | HYP-15 | Fournisseur SMS en masse avec nom d'expéditeur, crédits prépayés par l'école | Fonction serveur d'envoi | Étape 0 : deux devis | À valider |
 | HYP-16 | Modèle de bulletin A4 propre à chaque école, à partir d'un modèle guinéen de base | Gabarits PDF | Étape 0 : bulletins réels | À valider |
-| HYP-17 | Hébergement en Europe (Supabase, région UE) | Infrastructure | Juriste | À valider |
+| HYP-17 | Hébergement en Europe : projet Supabase en Irlande (eu-west-1) | Infrastructure | Juriste | À valider |
 
 ## 6. Détail des étapes
 
@@ -204,10 +204,11 @@ Objectif : remplacer les hypothèses par des faits avant de figer les modules 3 
 | 1.5 Base locale et file d'opérations | Fait | `src/sync/db.ts`, `src/sync/store.ts` |
 | 1.6 Moteur de synchronisation | Fait | `src/sync/engine.ts` |
 | 1.7 Authentification | Fait | `src/auth/`, `tests/unit.test.ts` ; parcours vérifié dans le navigateur avec un serveur simulé, réouverture hors connexion comprise |
-| 1.8 Comptes et rôles | Code écrit, non exécuté | `supabase/functions/members/`, `scripts/bootstrap-school.ts` : à tester sur le projet Supabase réel |
+| 1.8 Comptes et rôles | Fait, vérifié sur le serveur | `supabase/functions/members/` déployée ; création et retrait d'un membre vérifiés par `npm run smoke:remote` |
 | 1.9 Coquille de l'application | Fait | `src/app/` |
 | 1.10 Preuve du jalon | Fait en test automatisé | `tests/sync/deux-appareils.test.ts` |
-| Jalon de l'étape 1 sur matériel réel | À faire | Déployer sur un projet Supabase dédié, puis deux téléphones Android en mode avion |
+| Déploiement sur Supabase | Fait | Projet de l'organisation HailandSchool (UE, Irlande), 2 migrations, contrôle de bout en bout `scripts/smoke-remote.ts` : 18 contrôles conformes |
+| Jalon de l'étape 1 sur matériel réel | À faire | Deux téléphones Android en mode avion, avec l'école de test |
 | Étapes 2 à 6 | À venir | |
 
 ## 8. Journal des changements du plan
@@ -218,3 +219,6 @@ Objectif : remplacer les hypothèses par des faits avant de figer les modules 3 
 | 26/11/2026 | Lot 1.7 : le code SMS à usage unique passe à l'étape 5 (HYP-11) ; le mot de passe provisoire donné par le fondateur doit être changé à la première connexion | Aucun fournisseur SMS choisi avant l'étape 0 |
 | 26/11/2026 | Lot 1.8 : création des membres limitée au personnel ; parents et élèves en V2 avec l'espace parent | Périmètre MVP |
 | 26/11/2026 | Le chiffrement des données locales reste au lot 6.2, comme prévu | Rappel : le code à 4 chiffres protège l'accès, pas encore le stockage |
+| 26/11/2026 | Projet Supabase installé en Irlande et non à Paris | Création du projet de Paris impossible (limite de projets gratuits) ; projet créé par l'équipe dans l'organisation HailandSchool |
+| 26/11/2026 | Migration 2 : registre de synchronisation lisible malgré l'activation automatique de la sécurité par ligne ; droits par défaut de Supabase retirés | Contrôle de sécurité du projet ; sans correction, toute synchronisation aurait échoué et les fonctions d'administration auraient été appelables |
+| 26/11/2026 | Connexion par adresse technique dérivée du numéro (HYP-11) | Fournisseur « téléphone » désactivé sur le projet, il exige un service SMS |

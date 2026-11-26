@@ -6,7 +6,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { parseArgs } from 'node:util';
 import { randomInt } from 'node:crypto';
-import { normalizeGuineaPhone } from '../src/lib/phone';
+import { normalizeGuineaPhone, phoneToAuthEmail } from '../src/lib/phone';
 
 const { values } = parseArgs({
   options: {
@@ -31,8 +31,8 @@ const password = Array.from({ length: 10 }, () => alphabet[randomInt(alphabet.le
 
 const admin = createClient(url, serviceKey, { auth: { persistSession: false } });
 const { data: created, error: userError } = await admin.auth.admin.createUser({
-  phone, password, phone_confirm: true,
-  user_metadata: { full_name: values.fondateur, must_change_password: true },
+  email: phoneToAuthEmail(phone), password, email_confirm: true,
+  user_metadata: { full_name: values.fondateur, phone, must_change_password: true },
 });
 if (userError || !created.user) throw new Error(`Création du compte impossible : ${userError?.message}`);
 

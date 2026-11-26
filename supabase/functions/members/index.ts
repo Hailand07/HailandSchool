@@ -66,9 +66,10 @@ Deno.serve(async (req) => {
     let password: string | null = null;
     if (!userId) {
       password = tempPassword();
+      // Connexion par courriel technique dérivé du numéro (HYP-11), même règle que src/lib/phone.ts.
       const { data, error } = await admin.auth.admin.createUser({
-        phone, password, phone_confirm: true,
-        user_metadata: { full_name: fullName, must_change_password: true },
+        email: `${phone.replace(/^\+/, '')}@telephone.hailand.invalid`, password, email_confirm: true,
+        user_metadata: { full_name: fullName, phone, must_change_password: true },
       });
       if (error || !data.user) {
         return reply(409, { error: 'Ce numéro a déjà un compte incomplet. Contactez le support Hailand.' });

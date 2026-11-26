@@ -1,6 +1,6 @@
 // Connexion en ligne (lot 1.7) : téléphone + mot de passe, choix de l'école, enregistrement de l'appareil.
 import type { SupabaseClient, User } from '@supabase/supabase-js';
-import { normalizeGuineaPhone } from '../lib/phone';
+import { normalizeGuineaPhone, phoneToAuthEmail } from '../lib/phone';
 import { isRole, type Role } from '../lib/roles';
 import { getDeviceId, type DeviceSession } from '../device/device-store';
 
@@ -23,10 +23,10 @@ export class LoginError extends Error {}
 export async function signIn(client: SupabaseClient, phoneInput: string, password: string): Promise<SignInResult> {
   const phone = normalizeGuineaPhone(phoneInput);
   if (!phone) throw new LoginError('Numéro invalide. Exemple : 620 00 00 00.');
-  if (typeof navigator !== 'undefined' && !navigator.onLine) {
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) {
     throw new LoginError('La première connexion demande du réseau. Réessayez quand le téléphone est connecté.');
   }
-  const { data, error } = await client.auth.signInWithPassword({ phone, password });
+  const { data, error } = await client.auth.signInWithPassword({ email: phoneToAuthEmail(phone), password });
   if (error || !data.user) throw new LoginError('Numéro ou mot de passe incorrect.');
   const user = data.user;
 

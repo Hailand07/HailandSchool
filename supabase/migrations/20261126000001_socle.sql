@@ -15,6 +15,9 @@
 -- Séquence et registre de synchronisation
 -- ---------------------------------------------------------------------------
 
+-- Sur Supabase, tout nouvel objet du schéma public est ouvert par défaut à anon et authenticated :
+-- chaque table, séquence et fonction ci-dessous retire ces droits puis n'accorde que le nécessaire.
+
 create sequence public.sync_seq as bigint;
 
 create table public.sync_tables (
@@ -260,7 +263,7 @@ begin
 end;
 $$;
 
-revoke all on function public.make_synced(text, text, text[], boolean) from public;
+revoke all on function public.make_synced(text, text, text[], boolean) from public, anon, authenticated;
 
 -- ---------------------------------------------------------------------------
 -- Déclaration des tables du socle
@@ -280,6 +283,7 @@ revoke all on public.organizations, public.profiles, public.audit_log, public.sy
   from anon, authenticated;
 grant select on public.organizations, public.profiles, public.audit_log, public.sync_tables to authenticated;
 grant select, insert on public.sync_operations to authenticated;
+revoke all on sequence public.sync_seq, public.audit_log_id_seq from anon, authenticated;
 grant usage on sequence public.sync_seq to authenticated;
 
 -- ---------------------------------------------------------------------------
@@ -694,7 +698,7 @@ revoke all on function
   public.admin_upsert_profile(uuid, text, text), public.admin_add_member(uuid, uuid, text, text, text),
   public.admin_create_school(text, text, uuid, text, text), public.admin_set_membership_status(uuid, text),
   public.sync_touch(), public.audit_row()
-from public;
+from public, anon, authenticated;
 
 grant execute on function
   public.is_member(uuid), public.has_role(uuid, text[]), public.device_prefix(integer),

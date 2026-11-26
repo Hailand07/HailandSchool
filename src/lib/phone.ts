@@ -9,6 +9,16 @@ export function normalizeGuineaPhone(input: string): string | null {
   return `+224${d}`;
 }
 
+/**
+ * Identifiant de connexion technique dérivé du numéro (HYP-11).
+ * La connexion « téléphone » de Supabase exige un fournisseur SMS ; en attendant l'étape 5,
+ * on se connecte par courriel + mot de passe avec cette adresse. Le domaine .invalid est réservé :
+ * aucun courrier ne peut y être envoyé.
+ */
+export function phoneToAuthEmail(e164: string): string {
+  return `${e164.replace(/^\+/, '')}@telephone.hailand.invalid`;
+}
+
 /** +224620000000 → 620 00 00 00 */
 export function formatGuineaPhone(e164: string): string {
   const d = e164.replace(/^\+224/, '');

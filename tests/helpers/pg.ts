@@ -18,6 +18,10 @@ create function auth.uid() returns uuid language sql stable
 grant usage on schema auth to anon, authenticated, service_role;
 grant execute on function auth.uid() to anon, authenticated, service_role;
 grant usage on schema public to anon, authenticated, service_role;
+-- Droits par défaut d'un projet Supabase : tout nouvel objet de public est ouvert à anon et authenticated.
+alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
+alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;
+alter default privileges in schema public grant execute on functions to anon, authenticated, service_role;
 `;
 
 export type Tx = Transaction;

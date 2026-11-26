@@ -223,3 +223,24 @@ describe('socle serveur', () => {
     });
   });
 });
+
+describe('droits par défaut de Supabase', () => {
+  it("anon et authenticated n'ont accès à aucune fonction d'administration ni table interne", async () => {
+    const db = await createTestDb(TEST_TABLES_SQL);
+    const res = await db.query<{ obj: string; role: string }>(`
+      select p.proname as obj, r.rolname as role
+      from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+      cross join pg_roles r
+      where n.nspname = 'public' and r.rolname in ('anon', 'authenticated')
+        and (p.proname like 'admin\\_%' or p.proname in ('make_synced', 'sync_touch', 'audit_row'))
+        and has_function_privilege(r.oid, p.oid, 'execute')
+      union all
+      select c.relname, r.rolname
+      from pg_class c join pg_namespace n on n.oid = c.relnamespace
+      cross join pg_roles r
+      where n.nspname = 'public' and c.relkind in ('r', 'S') and r.rolname = 'anon'
+        and (has_table_privilege(r.oid, c.oid, 'select') or has_table_privilege(r.oid, c.oid, 'insert')
+          or (c.relkind = 'S' and has_sequence_privilege(r.oid, c.oid, 'usage')))`);
+    expect(res.rows).toEqual([]);
+  });
+});

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatGuineaPhone, normalizeGuineaPhone } from '../src/lib/phone';
+import { formatGuineaPhone, normalizeGuineaPhone, phoneToAuthEmail } from '../src/lib/phone';
 import { hashPin, isValidPin, verifyPin } from '../src/auth/pin';
 
 describe('numéros guinéens', () => {
@@ -15,6 +15,10 @@ describe('numéros guinéens', () => {
 
   it.each(['62000000', '7200000000', '+33612345678', 'abc', ''])('refuse %s', (input) => {
     expect(normalizeGuineaPhone(input)).toBeNull();
+  });
+
+  it('dérive l’identifiant de connexion technique', () => {
+    expect(phoneToAuthEmail('+224620000000')).toBe('224620000000@telephone.hailand.invalid');
   });
 
   it('formate pour l’affichage', () => {

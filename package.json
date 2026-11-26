@@ -11,7 +11,8 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:watch": "vitest",
-    "bootstrap-school": "tsx scripts/bootstrap-school.ts"
+    "bootstrap-school": "tsx scripts/bootstrap-school.ts",
+    "smoke:remote": "tsx scripts/smoke-remote.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.119.2",

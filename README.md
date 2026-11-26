@@ -40,6 +40,12 @@ Les tests exécutent les migrations SQL sur un vrai PostgreSQL embarqué (PGlite
 | `scripts/bootstrap-school.ts` | Création d'une école et de son fondateur par l'équipe Hailand |
 | `tests/` | Tests SQL, tests de synchronisation, tests unitaires |
 
+## Contrôler le serveur réel
+
+```bash
+SUPABASE_URL=https://VOTRE-PROJET.supabase.co SUPABASE_PUBLISHABLE_KEY=sb_publishable_... FOUNDER_PHONE="620 00 00 01" FOUNDER_PASSWORD=... npm run smoke:remote
+```
+
 ## Créer une école
 
 ```bash
