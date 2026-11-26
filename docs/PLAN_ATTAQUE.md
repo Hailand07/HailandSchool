@@ -208,6 +208,8 @@ Objectif : remplacer les hypothèses par des faits avant de figer les modules 3 
 | 1.9 Coquille de l'application | Fait | `src/app/` |
 | 1.10 Preuve du jalon | Fait en test automatisé | `tests/sync/deux-appareils.test.ts` |
 | Déploiement sur Supabase | Fait | Projet de l'organisation HailandSchool (UE, Irlande), 2 migrations, contrôle de bout en bout `scripts/smoke-remote.ts` : 18 contrôles conformes |
+| Hébergement de l'application | Fait | https://hailand-school.vercel.app, projet Vercel `hailand-school` relié au dépôt : chaque envoi sur la branche de production redéploie ; testé dans un navigateur contre le vrai serveur, réouverture hors connexion comprise |
+| Défaut connu | À corriger au lot 5.5 | « Dernière synchronisation » d'une caisse n'avance que lorsqu'elle envoie des opérations, pas quand elle ne fait que recevoir ; le tableau de bord du fondateur en dépend |
 | Jalon de l'étape 1 sur matériel réel | À faire | Deux téléphones Android en mode avion, avec l'école de test |
 | Étapes 2 à 6 | À venir | |
 

@@ -3,6 +3,7 @@
 Gestion des écoles privées guinéennes sur téléphone Android, même sans réseau : caisse, reçus, impayés, notes et bulletins.
 
 - Étude et conception : [document de conception](https://claude.ai/artifact/5RgYo7JimHdFufzWMARepT)
+- Application en ligne : https://hailand-school.vercel.app
 - Plan d'attaque du MVP et avancement : [docs/PLAN_ATTAQUE.md](docs/PLAN_ATTAQUE.md)
 - Kit d'entretiens de terrain : [docs/terrain/](docs/terrain/)
 
